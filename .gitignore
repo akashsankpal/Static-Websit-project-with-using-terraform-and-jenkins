@@ -1,6 +1,10 @@
 .venv
 /.idea
-
+.terraform/
+*.tfstate
+*.tfstate.backup
+terraform.tfstate
+.terraform.lock.hcl
 
 
 
