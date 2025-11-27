@@ -6,6 +6,8 @@
 
     Whenever code is pushed to GitHub, Jenkins automatically updates the live website running on EC2.
 
+    ![](./img/output.png)
+
 * ##  Technologies Used
 - AWS EC2
 - Terraform
@@ -13,6 +15,8 @@
 - GitHub Webhooks
 - Nginx Web Server
 - ubuntu 
+
+   ![](./img/github%20repo.png)
 
 * ## Project Structure
 
@@ -76,6 +80,10 @@
 
    http://<0.0.0.0/0>
 
+   ![](./img/variable.png)
+
+   ![](./img/security.png)
+
 
 
 * ## Security Group Configuration
@@ -96,7 +104,9 @@
 
   SSH Access  
 
-  HTTP Web Access  
+  HTTP Web Access 
+
+    ![](./img/instances.png) 
 
 * ## User Data Automation
 
@@ -111,6 +121,8 @@
   *  Copies website files to /usr/share/nginx/html
 
   *  Sets proper permissions
+
+  ![](./img/terraformfile.png)
 
 
 
@@ -165,6 +177,7 @@
     }
 }
 
+  ![](./img/jenkine%20cicd.png)
   
 
 * ## GitHub Webhook Setup
