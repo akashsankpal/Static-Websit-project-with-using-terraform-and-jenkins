@@ -1,0 +1,1 @@
+# Static-Websit-project-with-using-terraform-and-jenkins
