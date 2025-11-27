@@ -1,0 +1,56 @@
+pipeline {
+    agent any
+
+    environment {
+        SSH_CRED    = 'node-app-key'
+        SERVER_IP   = '3.110.154.168'
+        REMOTE_USER = 'ec2-user'
+        WEB_DIR     = '/usr/share/nginx/html'
+        GIT_REPO    = 'https://github.com/akashsankpal/Static-Websit-project-using-terraform-and-jenkins.git'
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git url: "${GIT_REPO}", branch: 'main'
+            }
+        }
+
+        stage('Deploy to Server') {
+            steps {
+                sshagent(credentials: ["${SSH_CRED}"]) {
+                    sh """
+                        ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${SERVER_IP} 'sudo mkdir -p ${WEB_DIR} && sudo chown -R ${REMOTE_USER}:${REMOTE_USER} ${WEB_DIR}'
+                        rsync -avz --delete ./ ${REMOTE_USER}@${SERVER_IP}:${WEB_DIR}/
+                    """
+                }
+            }
+        }
+
+        stage('Install Nginx & Restart') {
+            steps {
+                sshagent(credentials: ["${SSH_CRED}"]) {
+                    sh """
+                    ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${SERVER_IP} << 'EOF'
+                    sudo dnf update -y
+                    sudo dnf install -y nginx
+
+                    sudo systemctl start nginx
+                    sudo systemctl enable nginx
+                    sudo systemctl restart nginx
+                    EOF
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ Static Website Deployed Successfully"
+        }
+        failure {
+            echo "❌ Static Website Deployment Failed"
+        }
+    }
+}
