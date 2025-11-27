@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         SSH_CRED = 'node-app-key'       // Jenkins SSH key credential ID
-        SERVER_IP = '13.233.136.240'       // EC2 Public IP
+        SERVER_IP = '13.233.145.125'       // EC2 Public IP
         REMOTE_USER = 'ubuntu'
         WEB_DIR = '/var/www/html/'   // Nginx web root
     }
